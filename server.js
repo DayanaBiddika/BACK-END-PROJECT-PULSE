@@ -13,8 +13,8 @@ const sequelize = require("./DB/db.config");
 
 
 
-// path middleware for projectManager
-app.use("/projectManager-api", projectManagerApp);
+// path middleware for superUser
+app.use("/superAdmin-api", superAdminApp);
 
 const PORT=process.env.PORT||2828
 
