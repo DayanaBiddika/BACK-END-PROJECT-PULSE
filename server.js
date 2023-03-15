@@ -12,9 +12,9 @@ const sequelize = require("./DB/db.config");
 
 
 
-// path middleware for gdoApp
-app.use("/gdo-api", gdoApp);
 
+// path middleware for projectManager
+app.use("/projectManager-api", projectManagerApp);
 
 const PORT=process.env.PORT||2828
 
