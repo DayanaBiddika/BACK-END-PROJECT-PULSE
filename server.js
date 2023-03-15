@@ -12,9 +12,8 @@ const sequelize = require("./DB/db.config");
 
 
 
-//path middleware for admin login
-app.use("/admin-api", adminApp);
-
+// path middleware for gdoApp
+app.use("/gdo-api", gdoApp);
 
 
 const PORT=process.env.PORT||2828
