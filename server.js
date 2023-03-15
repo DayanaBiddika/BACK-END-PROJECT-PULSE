@@ -12,8 +12,9 @@ const sequelize = require("./DB/db.config");
 
 
 
-// import userApp
-const userApp = require("./routes/user.route");
+//path middleware for admin login
+app.use("/admin-api", adminApp);
+
 
 
 const PORT=process.env.PORT||2828
