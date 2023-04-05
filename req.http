@@ -33,11 +33,11 @@ POST http://localhost:2828/user-api/forget-password
 Content-Type: application/json
 
 {
-    "email":"dayyubiddika@gmail.com"
+    "email":"pavan@westagilelabs.com"
 }
 
 ###RESET PASSWORD
-POST http://localhost:2828/user-api/reset-password/email/dayyubiddika@gmail.com
+POST http://localhost:2828/user-api/reset-password/email/pavan@westagilelabs.com
 Content-Type: application/json
 
 {
