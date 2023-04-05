@@ -1,12 +1,13 @@
 // import expressAsyncHandler
 const expressAsyncHandler = require("express-async-handler");
+require("dotenv").config();
 const nodemailer = require('nodemailer');
 //create connection to smtp
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: process.env.EMAIL_SERVICE_PROVIDER,
   auth: {
-    user: "dayyubiddika095@gmail.com",
-    pass: "lscsslsurjfqrtab" // app password
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD // app password
   }
 })
 //Creating otps object
@@ -96,7 +97,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
         }
       );
       //send res
-      res.status(200).send({ message: "Login successfull", payload: signedToken,userRecord});
+      res.status(200).send({ message: "success", payload: signedToken,userRecord,user:userRecord});
     }
   }
 });
@@ -109,7 +110,7 @@ const forgetPassword=expressAsyncHandler(async(req,res)=>{
   //draft email
   let mailOptions = {
     //from which mail
-      from: 'dayyubiddika095@gmail.com',
+      from: process.env.EMAIL,
       //the mail which we have given in req http
       to: req.body.email,
       //subject
@@ -118,7 +119,10 @@ const forgetPassword=expressAsyncHandler(async(req,res)=>{
       text: `Hello ,
        We received a request to reset your password .Enter the following OTP to reset your password :
         `+otp
+        
     }
+     console.log(otp)
+    
   //send email
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
@@ -131,7 +135,7 @@ const forgetPassword=expressAsyncHandler(async(req,res)=>{
   setTimeout(()=>{
       //delete OTP from object after 10 minutes
       delete otps[req.body.email]
-  },700000)
+  },70000000)
   //send res
   res.status(200).send({message:"OTP to reset your password is sent to your email"})
 })
@@ -140,8 +144,11 @@ const resetPassword=expressAsyncHandler(async(req,res)=>{
   //otp matches
   if(req.body.otp==otps[req.params.email]){
       console.log("password verififed");
+
+      let hashedPassword = await bcryptjs.hash(req.body.password, 6);
+      
       //update the password
-      await User.update({password:req.body.password},{where:{
+      await User.update({password:hashedPassword},{where:{
           email:req.params.email
       }})
       //send res
@@ -154,3 +161,4 @@ const resetPassword=expressAsyncHandler(async(req,res)=>{
 })
 // export controllers
 module.exports = { registerUser, loginUser,forgetPassword,resetPassword };
+
